@@ -14,12 +14,13 @@ var parse = require('./lib/parse');
  * Parse Cookie header and populate `req.cookies`
  * with an object keyed by the cookie names.
  *
- * @param {String} secret
+ * @param {String} [secret]
+ * @param {Object} [options]
  * @return {Function}
  * @api public
  */
 
-module.exports = function cookieParser(secret, opt){
+module.exports = function cookieParser(secret, options){
   return function cookieParser(req, res, next) {
     if (req.cookies) return next();
     var cookies = req.headers.cookie;
@@ -30,7 +31,7 @@ module.exports = function cookieParser(secret, opt){
 
     if (cookies) {
       try {
-        req.cookies = cookie.parse(cookies, opt);
+        req.cookies = cookie.parse(cookies, options);
         if (secret) {
           req.signedCookies = parse.signedCookies(req.cookies, secret);
           req.signedCookies = parse.JSONCookies(req.signedCookies);
