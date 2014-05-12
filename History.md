@@ -1,5 +1,5 @@
-unreleased
-==========
+1.1.0 / 2014-05-12
+==================
 
   * Support for NodeJS version 0.8
   * deps: cookie@0.1.2
