@@ -13,9 +13,9 @@
     "cookie-signature": "1.0.3"
   },
   "devDependencies": {
-    "mocha": "~1.17.0",
-    "connect": "2.13.0",
-    "supertest": "0.9.0"
+    "connect": "~2.15.0",
+    "mocha": "~1.18.2",
+    "supertest": "~0.12.1"
   },
   "licenses": "MIT",
   "main": "./index.js",
