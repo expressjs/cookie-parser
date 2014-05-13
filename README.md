@@ -20,7 +20,7 @@ var cookieParser = require('cookie-parser')
 
 - `secret` a string used for signing cookies. This is optional and if not specified, will not parse signed cookies.
 - `options` an object that is passed to `cookie.parse` as the second option. See [cookie](https://www.npmjs.org/package/cookie) for more information.
-  - `decode` a funcction to decode the value of the cookie
+  - `decode` a function to decode the value of the cookie
 
 ## Example
 
