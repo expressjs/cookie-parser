@@ -14,8 +14,8 @@
     "cookie-signature": "1.0.3"
   },
   "devDependencies": {
-    "mocha": "~1.18.2",
-    "supertest": "~0.12.1"
+    "mocha": "~1.20.1",
+    "supertest": "~0.13.0"
   },
   "engines": {
     "node": ">= 0.8.0"
