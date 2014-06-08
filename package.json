@@ -1,13 +1,14 @@
 {
   "name": "cookie-parser",
-  "version": "1.1.0",
   "description": "cookie parsing with signatures",
+  "version": "1.1.0",
+  "author": "TJ Holowaychuk <tj@vision-media.ca> (http://tjholowaychuk.com)",
+  "licenses": "MIT",
+  "repository": "expressjs/cookie-parser",
   "keywords": [
     "cookie",
     "middleware"
   ],
-  "repository": "git://github.com/expressjs/cookie-parser.git",
-  "author": "TJ Holowaychuk <tj@vision-media.ca> (http://tjholowaychuk.com)",
   "dependencies": {
     "cookie": "0.1.2",
     "cookie-signature": "1.0.3"
@@ -16,8 +17,6 @@
     "mocha": "~1.18.2",
     "supertest": "~0.12.1"
   },
-  "licenses": "MIT",
-  "main": "./index.js",
   "engines": {
     "node": ">= 0.8.0"
   },
