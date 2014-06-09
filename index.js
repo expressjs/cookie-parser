@@ -26,8 +26,8 @@ module.exports = function cookieParser(secret, options){
     var cookies = req.headers.cookie;
 
     req.secret = secret;
-    req.cookies = {};
-    req.signedCookies = {};
+    req.cookies = Object.create(null);
+    req.signedCookies = Object.create(null);
 
     if (cookies) {
       try {
