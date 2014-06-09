@@ -4,7 +4,7 @@ var http = require('http')
 var request = require('supertest')
 var signature = require('cookie-signature')
 
-describe('connect.cookieParser()', function(){
+describe('cookieParser()', function(){
   var server
   before(function(){
     server = createServer('keyboard cat')
