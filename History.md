@@ -2,6 +2,7 @@ unreleased
 ==========
 
   * `req.cookies` and `req.signedCookies` are now plain objects
+  * slightly faster parsing of many cookies
 
 1.1.0 / 2014-05-12
 ==================
