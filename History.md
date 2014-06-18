@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+  * export parsing functions
   * `req.cookies` and `req.signedCookies` are now plain objects
   * slightly faster parsing of many cookies
 

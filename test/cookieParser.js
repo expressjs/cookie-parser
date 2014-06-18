@@ -1,4 +1,5 @@
 
+var assert = require('assert')
 var cookieParser = require('..')
 var http = require('http')
 var request = require('supertest')
@@ -8,6 +9,18 @@ describe('cookieParser()', function(){
   var server
   before(function(){
     server = createServer('keyboard cat')
+  })
+
+  it('should export JSONCookie function', function(){
+    assert(typeof cookieParser.JSONCookie, 'function')
+  })
+
+  it('should export JSONCookies function', function(){
+    assert(typeof cookieParser.JSONCookies, 'function')
+  })
+
+  it('should export signedCookies function', function(){
+    assert(typeof cookieParser.signedCookies, 'function')
   })
 
   describe('when no cookies are sent', function(){

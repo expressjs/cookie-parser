@@ -20,7 +20,7 @@ var parse = require('./lib/parse');
  * @api public
  */
 
-module.exports = function cookieParser(secret, options){
+exports = module.exports = function cookieParser(secret, options){
   return function cookieParser(req, res, next) {
     if (req.cookies) return next();
     var cookies = req.headers.cookie;
@@ -45,3 +45,11 @@ module.exports = function cookieParser(secret, options){
     next();
   };
 };
+
+/**
+ * Export parsing functions.
+ */
+
+exports.JSONCookie = parse.JSONCookie;
+exports.JSONCookies = parse.JSONCookies;
+exports.signedCookies = parse.signedCookies;

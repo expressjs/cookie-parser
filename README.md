@@ -25,6 +25,18 @@ var cookieParser = require('cookie-parser')
 - `options` an object that is passed to `cookie.parse` as the second option. See [cookie](https://www.npmjs.org/package/cookie) for more information.
   - `decode` a function to decode the value of the cookie
 
+### cookieParser.JSONCookie(str)
+
+Parse a cookie value as a JSON cookie. This will return the parsed JSON value if it was a JSON cookie, otherwise it will return the passed value.
+
+### cookieParser.JSONCookies(cookies)
+
+Given an object, this will iterate over the keys and call `JSONCookie` on each value. This will return the same object passed in.
+
+### cookieParser.signedCookies(cookies, secret)
+
+Given an object, this will iterate over the keys and check if any value is a signed cookie. If it is a signed cookie and the signature is valid, the key will be deleted from the object and added to the new object that is returned.
+
 ## Example
 
 ```js
