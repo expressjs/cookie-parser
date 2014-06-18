@@ -31,6 +31,20 @@ describe('cookieParser()', function(){
       .set('Cookie', 'foo=bar; bar=baz')
       .expect(200, '{"foo":"bar","bar":"baz"}', done)
     })
+
+    it('should inflate JSON cookies', function(done){
+      request(server)
+      .get('/')
+      .set('Cookie', 'foo=j:{"foo":"bar"}')
+      .expect(200, '{"foo":{"foo":"bar"}}', done)
+    })
+
+    it('should not inflate invalid JSON cookies', function(done){
+      request(server)
+      .get('/')
+      .set('Cookie', 'foo=j:{"foo":')
+      .expect(200, '{"foo":"j:{\\"foo\\":"}', done)
+    })
   })
 
   describe('when a secret is given', function(){
