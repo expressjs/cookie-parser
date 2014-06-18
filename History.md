@@ -1,5 +1,5 @@
-unreleased
-==========
+1.3.1 / 2014-06-17
+==================
 
   * actually export `signedCookie`
 
