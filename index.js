@@ -55,4 +55,5 @@ exports = module.exports = function cookieParser(secret, options){
 
 exports.JSONCookie = parse.JSONCookie;
 exports.JSONCookies = parse.JSONCookies;
+exports.signedCookie = parse.signedCookie;
 exports.signedCookies = parse.signedCookies;

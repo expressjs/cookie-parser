@@ -19,6 +19,10 @@ describe('cookieParser()', function(){
     assert(typeof cookieParser.JSONCookies, 'function')
   })
 
+  it('should export signedCookie function', function(){
+    assert(typeof cookieParser.signedCookie, 'function')
+  })
+
   it('should export signedCookies function', function(){
     assert(typeof cookieParser.signedCookies, 'function')
   })
