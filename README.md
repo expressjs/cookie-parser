@@ -34,6 +34,10 @@ Parse a cookie value as a JSON cookie. This will return the parsed JSON value if
 
 Given an object, this will iterate over the keys and call `JSONCookie` on each value. This will return the same object passed in.
 
+### cookieParser.signedCookie(str, secret)
+
+Parse a cookie value as a signed cookie. This will return the parsed unsigned value if it was a signed cookie and the signature was valid, otherwise it will return the passed value.
+
 ### cookieParser.signedCookies(cookies, secret)
 
 Given an object, this will iterate over the keys and check if any value is a signed cookie. If it is a signed cookie and the signature is valid, the key will be deleted from the object and added to the new object that is returned.

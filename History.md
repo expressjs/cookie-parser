@@ -1,3 +1,8 @@
+unreleased
+==========
+
+  * add `signedCookie` export for single cookie unsigning
+
 1.2.0 / 2014-06-17
 ==================
 
