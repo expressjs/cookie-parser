@@ -2,6 +2,7 @@
 
 [![NPM Version](https://badge.fury.io/js/cookie-parser.svg)](https://badge.fury.io/js/cookie-parser)
 [![Build Status](https://travis-ci.org/expressjs/cookie-parser.svg?branch=master)](https://travis-ci.org/expressjs/cookie-parser)
+[![Coverage Status](https://img.shields.io/coveralls/expressjs/cookie-parser.svg?branch=master)](https://coveralls.io/r/expressjs/cookie-parser)
 
 Parse `Cookie` header and populate `req.cookies` with an object keyed by the cookie
 names. Optionally you may enable signed cookie support by passing a `secret` string,
