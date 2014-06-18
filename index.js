@@ -29,19 +29,22 @@ exports = module.exports = function cookieParser(secret, options){
     req.cookies = Object.create(null);
     req.signedCookies = Object.create(null);
 
-    if (cookies) {
-      try {
-        req.cookies = cookie.parse(cookies, options);
-        if (secret) {
-          req.signedCookies = parse.signedCookies(req.cookies, secret);
-          req.signedCookies = parse.JSONCookies(req.signedCookies);
-        }
-        req.cookies = parse.JSONCookies(req.cookies);
-      } catch (err) {
-        err.status = 400;
-        return next(err);
-      }
+    // no cookies
+    if (!cookies) {
+      return next();
     }
+
+    req.cookies = cookie.parse(cookies, options);
+
+    // parse signed cookies
+    if (secret) {
+      req.signedCookies = parse.signedCookies(req.cookies, secret);
+      req.signedCookies = parse.JSONCookies(req.signedCookies);
+    }
+
+    // parse JSON cookies
+    req.cookies = parse.JSONCookies(req.cookies);
+
     next();
   };
 };
