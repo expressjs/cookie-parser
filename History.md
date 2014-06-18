@@ -1,5 +1,5 @@
-unreleased
-==========
+1.2.0 / 2014-06-17
+==================
 
   * export parsing functions
   * `req.cookies` and `req.signedCookies` are now plain objects
