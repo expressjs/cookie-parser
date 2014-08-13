@@ -50,13 +50,20 @@ Given an object, this will iterate over the keys and check if any value is a sig
 ## Example
 
 ```js
-var cookieParser = require('cookie-parser');
+var express      = require('express')
+var cookieParser = require('cookie-parser')
 
-connect()
- .use(cookieParser('optional secret string'))
- .use(function(req, res, next){
-   res.end(JSON.stringify(req.cookies));
- })
+var app = express()
+app.use(cookieParser())
+
+app.get('/', function(req, res) {
+  console.log("Cookies: ", req.cookies)
+})
+
+app.listen(8080)
+
+// curl command that sends an HTTP request with two cookies
+// curl http://127.0.0.1:8080 --cookie "Cho=Kim;Greet=Hello"
 ```
 
 ### [MIT Licensed](LICENSE)
