@@ -1,14 +1,15 @@
 # cookie-parser
 
-[![NPM Version](https://badge.fury.io/js/cookie-parser.svg)](https://badge.fury.io/js/cookie-parser)
-[![Build Status](https://travis-ci.org/expressjs/cookie-parser.svg?branch=master)](https://travis-ci.org/expressjs/cookie-parser)
-[![Coverage Status](https://img.shields.io/coveralls/expressjs/cookie-parser.svg?branch=master)](https://coveralls.io/r/expressjs/cookie-parser)
+[![NPM Version](https://img.shields.io/npm/v/cookie-parser.svg?style=flat)](https://www.npmjs.org/package/cookie-parser)
+[![Node.js Version](https://img.shields.io/badge/node.js->=_0.8-blue.svg?style=flat)](http://nodejs.org/download/)
+[![Build Status](http://img.shields.io/travis/expressjs/cookie-parser.svg?style=flat)](https://travis-ci.org/expressjs/cookie-parser)
+[![Coverage Status](https://img.shields.io/coveralls/expressjs/cookie-parser.svg?style=flat)](https://coveralls.io/r/expressjs/cookie-parser)
 
 Parse `Cookie` header and populate `req.cookies` with an object keyed by the cookie
 names. Optionally you may enable signed cookie support by passing a `secret` string,
 which assigns `req.secret` so it may be used by other middleware.
 
-## Install
+## Installation
 
 ```sh
 $ npm install cookie-parser
@@ -17,7 +18,11 @@ $ npm install cookie-parser
 ## API
 
 ```js
+var express      = require('express')
 var cookieParser = require('cookie-parser')
+
+var app = express()
+app.use(cookieParser())
 ```
 
 ### cookieParser(secret, options)
@@ -54,6 +59,4 @@ connect()
  })
 ```
 
-## License
-
-MIT
+### [MIT Licensed](LICENSE)
