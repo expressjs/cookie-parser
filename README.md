@@ -46,16 +46,30 @@ Parse a cookie value as a signed cookie. This will return the parsed unsigned va
 
 Given an object, this will iterate over the keys and check if any value is a signed cookie. If it is a signed cookie and the signature is valid, the key will be deleted from the object and added to the new object that is returned.
 
-## Example
+## Examples
 
 ```js
-var cookieParser = require('cookie-parser');
+var http         = require('http')
+var express      = require('express')
+var cookieParser = require('cookie-parser')
+var port         = process.env.PORT || 8080
+var server       = null
 
-connect()
- .use(cookieParser('optional secret string'))
- .use(function(req, res, next){
-   res.end(JSON.stringify(req.cookies));
- })
+var app = express()
+app.use(cookieParser())
+
+app.get('/', function(req, res) {
+  console.log("Cookies: ", req.cookies)
+  res.end()
+})
+
+server = http.createServer(app)
+server.listen(port, function() {
+  console.log("Listening on port: ", port)
+})
+
+// curl command that sends an HTTP request with two cookies
+// curl http://127.0.0.1:8080 --cookie "Cho=Kim;Greet=Hello"
 ```
 
 ### [The MIT License (MIT)](LICENSE)
