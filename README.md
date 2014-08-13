@@ -8,7 +8,7 @@ Parse `Cookie` header and populate `req.cookies` with an object keyed by the coo
 names. Optionally you may enable signed cookie support by passing a `secret` string,
 which assigns `req.secret` so it may be used by other middleware.
 
-## Install
+## Installation
 
 ```sh
 $ npm install cookie-parser
@@ -17,7 +17,11 @@ $ npm install cookie-parser
 ## API
 
 ```js
+var express      = require('express')
 var cookieParser = require('cookie-parser')
+
+var app = express()
+app.use(cookieParser())
 ```
 
 ### cookieParser(secret, options)
@@ -54,6 +58,4 @@ connect()
  })
 ```
 
-## License
-
-MIT
+### [The MIT License (MIT)](LICENSE)
