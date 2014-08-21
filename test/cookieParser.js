@@ -96,6 +96,28 @@ describe('cookieParser()', function(){
       });
     })
   })
+
+  describe('when no secret is given', function () {
+    var server
+    before(function () {
+      server = createServer()
+    })
+
+    it('should populate req.cookies', function (done) {
+      request(server)
+      .get('/')
+      .set('Cookie', 'foo=bar; bar=baz')
+      .expect(200, '{"foo":"bar","bar":"baz"}', done)
+    })
+
+    it('should not populate req.signedCookies', function (done) {
+      var val = signature.sign('foobarbaz', 'keyboard cat');
+      request(server)
+      .get('/signed')
+      .set('Cookie', 'foo=s:' + val)
+      .expect(200, '{}', done)
+    })
+  })
 })
 
 function createServer(secret) {
