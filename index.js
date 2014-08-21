@@ -21,6 +21,9 @@ var parse = require('./lib/parse');
  */
 
 exports = module.exports = function cookieParser(secret, options){
+  if (typeof secret !== 'string') {
+    secret = '';
+  }
   return function cookieParser(req, res, next) {
     if (req.cookies) return next();
     var cookies = req.headers.cookie;
