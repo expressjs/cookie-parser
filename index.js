@@ -1,11 +1,11 @@
 /*!
-* cookie-parser
-* MIT Licensed
-*/
+ * cookie-parser
+ * MIT Licensed
+ */
 
 /**
-* Module dependencies.
-*/
+ * Module dependencies.
+ */
 
 var cookie = require('cookie');
 var parse = require('./lib/parse');
