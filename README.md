@@ -1,9 +1,9 @@
 # cookie-parser
 
-[![NPM Version](https://img.shields.io/npm/v/cookie-parser.svg?style=flat)](https://www.npmjs.org/package/cookie-parser)
-[![Node.js Version](https://img.shields.io/badge/node.js->=_0.8-blue.svg?style=flat)](http://nodejs.org/download/)
-[![Build Status](http://img.shields.io/travis/expressjs/cookie-parser.svg?style=flat)](https://travis-ci.org/expressjs/cookie-parser)
-[![Coverage Status](https://img.shields.io/coveralls/expressjs/cookie-parser.svg?style=flat)](https://coveralls.io/r/expressjs/cookie-parser)
+[![NPM Version][npm-image]][npm-url]
+[![NPM Downloads][downloads-image]][downloads-url]
+[![Build Status][travis-image]][travis-url]
+[![Test Coverage][coveralls-image]][coveralls-url]
 
 Parse `Cookie` header and populate `req.cookies` with an object keyed by the cookie
 names. Optionally you may enable signed cookie support by passing a `secret` string,
@@ -67,3 +67,12 @@ app.listen(8080)
 ```
 
 ### [MIT Licensed](LICENSE)
+
+[npm-image]: https://img.shields.io/npm/v/cookie-parser.svg?style=flat
+[npm-url]: https://npmjs.org/package/cookie-parser
+[travis-image]: https://img.shields.io/travis/expressjs/cookie-parser.svg?style=flat
+[travis-url]: https://travis-ci.org/expressjs/cookie-parser
+[coveralls-image]: https://img.shields.io/coveralls/expressjs/cookie-parser.svg?style=flat
+[coveralls-url]: https://coveralls.io/r/expressjs/cookie-parser?branch=master
+[downloads-image]: https://img.shields.io/npm/dm/cookie-parser.svg?style=flat
+[downloads-url]: https://npmjs.org/package/cookie-parser
