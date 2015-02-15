@@ -68,11 +68,11 @@ app.listen(8080)
 
 ### [MIT Licensed](LICENSE)
 
-[npm-image]: https://img.shields.io/npm/v/cookie-parser.svg?style=flat
+[npm-image]: https://img.shields.io/npm/v/cookie-parser.svg
 [npm-url]: https://npmjs.org/package/cookie-parser
-[travis-image]: https://img.shields.io/travis/expressjs/cookie-parser.svg?style=flat
+[travis-image]: https://img.shields.io/travis/expressjs/cookie-parser/master.svg
 [travis-url]: https://travis-ci.org/expressjs/cookie-parser
-[coveralls-image]: https://img.shields.io/coveralls/expressjs/cookie-parser.svg?style=flat
+[coveralls-image]: https://img.shields.io/coveralls/expressjs/cookie-parser/master.svg
 [coveralls-url]: https://coveralls.io/r/expressjs/cookie-parser?branch=master
-[downloads-image]: https://img.shields.io/npm/dm/cookie-parser.svg?style=flat
+[downloads-image]: https://img.shields.io/npm/dm/cookie-parser.svg
 [downloads-url]: https://npmjs.org/package/cookie-parser
