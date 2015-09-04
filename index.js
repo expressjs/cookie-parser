@@ -117,6 +117,10 @@ function JSONCookies(obj) {
  */
 
 function signedCookie(str, secret) {
+  if (typeof str !== 'string') {
+    return undefined;
+  }
+
   return str.substr(0, 2) === 's:'
     ? signature.unsign(str.slice(2), secret)
     : str;

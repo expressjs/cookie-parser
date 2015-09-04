@@ -139,6 +139,15 @@ describe('cookieParser.JSONCookie(str)', function () {
 })
 
 describe('cookieParser.signedCookie(str, secret)', function () {
+  it('should return undefined for non-string arguments', function () {
+    assert.strictEqual(cookieParser.signedCookie(undefined, 'keyboard cat'), undefined)
+    assert.strictEqual(cookieParser.signedCookie(null, 'keyboard cat'), undefined)
+    assert.strictEqual(cookieParser.signedCookie(42, 'keyboard cat'), undefined)
+    assert.strictEqual(cookieParser.signedCookie({}, 'keyboard cat'), undefined)
+    assert.strictEqual(cookieParser.signedCookie([], 'keyboard cat'), undefined)
+    assert.strictEqual(cookieParser.signedCookie(function(){}, 'keyboard cat'), undefined)
+  })
+
   it('should pass through non-signed string', function () {
     assert.strictEqual(cookieParser.signedCookie('', 'keyboard cat'), '')
     assert.strictEqual(cookieParser.signedCookie('foo', 'keyboard cat'), 'foo')
