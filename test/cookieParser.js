@@ -117,6 +117,16 @@ describe('cookieParser()', function(){
 })
 
 describe('cookieParser.JSONCookie(str)', function () {
+  it('should return undefined for non-string arguments', function () {
+    assert.strictEqual(cookieParser.JSONCookie(), undefined)
+    assert.strictEqual(cookieParser.JSONCookie(undefined), undefined)
+    assert.strictEqual(cookieParser.JSONCookie(null), undefined)
+    assert.strictEqual(cookieParser.JSONCookie(42), undefined)
+    assert.strictEqual(cookieParser.JSONCookie({}), undefined)
+    assert.strictEqual(cookieParser.JSONCookie([]), undefined)
+    assert.strictEqual(cookieParser.JSONCookie(function(){}), undefined)
+  })
+
   it('should return undefined for non-JSON cookie string', function () {
     assert.strictEqual(cookieParser.JSONCookie(''), undefined)
     assert.strictEqual(cookieParser.JSONCookie('foo'), undefined)
