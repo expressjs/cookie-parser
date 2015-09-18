@@ -2,6 +2,7 @@
 
 [![NPM Version][npm-image]][npm-url]
 [![NPM Downloads][downloads-image]][downloads-url]
+[![Node.js Version][node-version-image]][node-version-url]
 [![Build Status][travis-image]][travis-url]
 [![Test Coverage][coveralls-image]][coveralls-url]
 
@@ -70,6 +71,8 @@ app.listen(8080)
 
 [npm-image]: https://img.shields.io/npm/v/cookie-parser.svg
 [npm-url]: https://npmjs.org/package/cookie-parser
+[node-version-image]: https://img.shields.io/node/v/cookie-parser.svg
+[node-version-url]: http://nodejs.org/download/
 [travis-image]: https://img.shields.io/travis/expressjs/cookie-parser/master.svg
 [travis-url]: https://travis-ci.org/expressjs/cookie-parser
 [coveralls-image]: https://img.shields.io/coveralls/expressjs/cookie-parser/master.svg
