@@ -11,10 +11,6 @@ describe('cookieParser()', function(){
     server = createServer('keyboard cat')
   })
 
-  it('should export JSONCookie function', function(){
-    assert(typeof cookieParser.JSONCookie, 'function')
-  })
-
   it('should export JSONCookies function', function(){
     assert(typeof cookieParser.JSONCookies, 'function')
   })
@@ -117,6 +113,22 @@ describe('cookieParser()', function(){
       .set('Cookie', 'foo=s:' + val)
       .expect(200, '{}', done)
     })
+  })
+})
+
+describe('cookieParser.JSONCookie(str)', function () {
+  it('should return undefined for non-JSON cookie string', function () {
+    assert.strictEqual(cookieParser.JSONCookie(''), undefined)
+    assert.strictEqual(cookieParser.JSONCookie('foo'), undefined)
+    assert.strictEqual(cookieParser.JSONCookie('{}'), undefined)
+  })
+
+  it('should return object for JSON cookie string', function () {
+    assert.deepEqual(cookieParser.JSONCookie('j:{"foo":"bar"}'), { foo: 'bar' })
+  })
+
+  it('should return undefined on invalid JSON', function () {
+    assert.strictEqual(cookieParser.JSONCookie('j:{foo:"bar"}'), undefined)
   })
 })
 
