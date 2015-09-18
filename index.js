@@ -1,6 +1,7 @@
 /*!
  * cookie-parser
  * Copyright(c) 2014 TJ Holowaychuk
+ * Copyright(c) 2015 Douglas Christopher Wilson
  * MIT Licensed
  */
 
