@@ -28,7 +28,7 @@ app.use(cookieParser())
 
 ### cookieParser(secret, options)
 
-- `secret` a string used for signing cookies. This is optional and if not specified, will not parse signed cookies.
+- `secret` a string or array used for signing cookies. This is optional and if not specified, will not parse signed cookies. If a string is provided, this is used as the secret. If an array is provided, an attempt will be made to unsign the cookie with each secret in order.
 - `options` an object that is passed to `cookie.parse` as the second option. See [cookie](https://www.npmjs.org/package/cookie) for more information.
   - `decode` a function to decode the value of the cookie
 
@@ -44,9 +44,13 @@ Given an object, this will iterate over the keys and call `JSONCookie` on each v
 
 Parse a cookie value as a signed cookie. This will return the parsed unsigned value if it was a signed cookie and the signature was valid, otherwise it will return the passed value.
 
+The `secret` argument can be an array or string. If a string is provided, this is used as the secret. If an array is provided, an attempt will be made to unsign the cookie with each secret in order.
+
 ### cookieParser.signedCookies(cookies, secret)
 
 Given an object, this will iterate over the keys and check if any value is a signed cookie. If it is a signed cookie and the signature is valid, the key will be deleted from the object and added to the new object that is returned.
+
+The `secret` argument can be an array or string. If a string is provided, this is used as the secret. If an array is provided, an attempt will be made to unsign the cookie with each secret in order.
 
 ## Example
 

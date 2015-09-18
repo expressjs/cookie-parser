@@ -85,6 +85,15 @@ describe('cookieParser()', function(){
     })
   })
 
+  describe('when multiple secrets are given', function () {
+    it('should populate req.signedCookies', function (done) {
+      request(createServer(['keyboard cat', 'nyan cat']))
+      .get('/signed')
+      .set('Cookie', 'buzz=s:foobar.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE; fizz=s:foobar.JTCAgiMWsnuZpN3mrYnEUjXlGxmDi4POCBnWbRxse88')
+      .expect(200, '{"buzz":"foobar","fizz":"foobar"}', done)
+    })
+  })
+
   describe('when no secret is given', function () {
     var server
     before(function () {
@@ -157,6 +166,29 @@ describe('cookieParser.signedCookie(str, secret)', function () {
   it('should return unsigned value for signed string', function () {
     assert.strictEqual(cookieParser.signedCookie('s:foobar.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE', 'keyboard cat'), 'foobar')
   })
+
+  describe('when secret is an array', function () {
+    it('should return false for tampered signed string', function () {
+      assert.strictEqual(cookieParser.signedCookie('s:foobaz.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE', [
+        'keyboard cat',
+        'nyan cat'
+      ]), false)
+    })
+
+    it('should return unsigned value for first secret', function () {
+      assert.strictEqual(cookieParser.signedCookie('s:foobar.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE', [
+        'keyboard cat',
+        'nyan cat'
+      ]), 'foobar')
+    })
+
+    it('should return unsigned value for second secret', function () {
+      assert.strictEqual(cookieParser.signedCookie('s:foobar.JTCAgiMWsnuZpN3mrYnEUjXlGxmDi4POCBnWbRxse88', [
+        'keyboard cat',
+        'nyan cat'
+      ]), 'foobar')
+    })
+  })
 })
 
 describe('cookieParser.signedCookies(obj, secret)', function () {
@@ -203,6 +235,20 @@ describe('cookieParser.signedCookies(obj, secret)', function () {
 
     assert.deepEqual(cookieParser.signedCookies(obj, 'keyboard cat'), { foo: 'foobar' })
     assert.deepEqual(obj, { fizz: 'buzz' })
+  })
+
+  describe('when secret is an array', function () {
+    it('should include unsigned strings for all secrets', function () {
+      var obj = {
+        buzz: 's:foobar.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE',
+        fizz: 's:foobar.JTCAgiMWsnuZpN3mrYnEUjXlGxmDi4POCBnWbRxse88'
+      }
+
+      assert.deepEqual(cookieParser.signedCookies(obj, [ 'keyboard cat', 'nyan cat' ]), {
+        buzz: 'foobar',
+        fizz: 'foobar'
+      })
+    })
   })
 })
 

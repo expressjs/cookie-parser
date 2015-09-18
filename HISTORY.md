@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+  * Accept array of secrets in addition to a single secret
   * Fix `JSONCookie` to return `undefined` for non-string arguments
   * Fix `signedCookie` to return `undefined` for non-string arguments
   * deps: cookie@0.2.2

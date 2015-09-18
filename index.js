@@ -28,7 +28,7 @@ module.exports.signedCookies = signedCookies;
  * Parse Cookie header and populate `req.cookies`
  * with an object keyed by the cookie names.
  *
- * @param {String} [secret]
+ * @param {string|array} [secret] A string (or array of strings) representing cookie signing secret(s).
  * @param {Object} [options]
  * @return {Function}
  * @public
@@ -36,10 +36,16 @@ module.exports.signedCookies = signedCookies;
 
 function cookieParser(secret, options) {
   return function cookieParser(req, res, next) {
-    if (req.cookies) return next();
-    var cookies = req.headers.cookie;
+    if (req.cookies) {
+      return next();
+    }
 
-    req.secret = secret;
+    var cookies = req.headers.cookie;
+    var secrets = !secret || Array.isArray(secret)
+      ? (secret || [])
+      : [secret];
+
+    req.secret = secrets[0];
     req.cookies = Object.create(null);
     req.signedCookies = Object.create(null);
 
@@ -51,8 +57,8 @@ function cookieParser(secret, options) {
     req.cookies = cookie.parse(cookies, options);
 
     // parse signed cookies
-    if (secret) {
-      req.signedCookies = signedCookies(req.cookies, secret);
+    if (secrets.length !== 0) {
+      req.signedCookies = signedCookies(req.cookies, secrets);
       req.signedCookies = JSONCookies(req.signedCookies);
     }
 
@@ -112,7 +118,7 @@ function JSONCookies(obj) {
  * Parse a signed cookie string, return the decoded value.
  *
  * @param {String} str signed cookie string
- * @param {String} secret
+ * @param {string|array} secret
  * @return {String} decoded value
  * @public
  */
@@ -122,17 +128,31 @@ function signedCookie(str, secret) {
     return undefined;
   }
 
-  return str.substr(0, 2) === 's:'
-    ? signature.unsign(str.slice(2), secret)
-    : str;
+  if (str.substr(0, 2) !== 's:') {
+    return str;
+  }
+
+  var secrets = !secret || Array.isArray(secret)
+    ? (secret || [])
+    : [secret];
+
+  for (var i = 0; i < secrets.length; i++) {
+    var val = signature.unsign(str.slice(2), secrets[i]);
+
+    if (val !== false) {
+      return val;
+    }
+  }
+
+  return false;
 }
 
 /**
- * Parse signed cookies, returning an object
- * containing the decoded key/value pairs,
- * while removing the signed key from `obj`.
+ * Parse signed cookies, returning an object containing the decoded key/value
+ * pairs, while removing the signed key from obj.
  *
  * @param {Object} obj
+ * @param {string|array} secret
  * @return {Object}
  * @public
  */
