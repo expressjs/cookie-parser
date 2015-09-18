@@ -15,10 +15,6 @@ describe('cookieParser()', function(){
     assert(typeof cookieParser.JSONCookies, 'function')
   })
 
-  it('should export signedCookies function', function(){
-    assert(typeof cookieParser.signedCookies, 'function')
-  })
-
   describe('when no cookies are sent', function(){
     it('should default req.cookies to {}', function(done){
       request(server)
@@ -160,6 +156,53 @@ describe('cookieParser.signedCookie(str, secret)', function () {
 
   it('should return unsigned value for signed string', function () {
     assert.strictEqual(cookieParser.signedCookie('s:foobar.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE', 'keyboard cat'), 'foobar')
+  })
+})
+
+describe('cookieParser.signedCookies(obj, secret)', function () {
+  it('should ignore non-signed strings', function () {
+    assert.deepEqual(cookieParser.signedCookies({}, 'keyboard cat'), {})
+    assert.deepEqual(cookieParser.signedCookies({ foo: 'bar' }, 'keyboard cat'), {})
+  })
+
+  it('should include tampered strings as false', function () {
+    assert.deepEqual(cookieParser.signedCookies({ foo: 's:foobaz.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE' }, 'keyboard cat'), {
+      foo: false
+    })
+  })
+
+  it('should include unsigned strings', function () {
+    assert.deepEqual(cookieParser.signedCookies({ foo: 's:foobar.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE' }, 'keyboard cat'), {
+      foo: 'foobar'
+    })
+  })
+
+  it('should remove signed strings from original object', function () {
+    var obj = {
+      foo: 's:foobar.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE'
+    }
+
+    assert.deepEqual(cookieParser.signedCookies(obj, 'keyboard cat'), { foo: 'foobar' })
+    assert.deepEqual(obj, {})
+  })
+
+  it('should remove tampered strings from original object', function () {
+    var obj = {
+      foo: 's:foobaz.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE'
+    }
+
+    assert.deepEqual(cookieParser.signedCookies(obj, 'keyboard cat'), { foo: false })
+    assert.deepEqual(obj, {})
+  })
+
+  it('should leave unsigned string in original object', function () {
+    var obj = {
+      fizz: 'buzz',
+      foo: 's:foobar.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE'
+    }
+
+    assert.deepEqual(cookieParser.signedCookies(obj, 'keyboard cat'), { foo: 'foobar' })
+    assert.deepEqual(obj, { fizz: 'buzz' })
   })
 })
 
