@@ -3,7 +3,7 @@ unreleased
 
   * Fix `JSONCookie` to return `undefined` for non-string arguments
   * Fix `signedCookie` to return `undefined` for non-string arguments
-  * deps: cookie@0.1.5
+  * deps: cookie@0.2.2
 
 1.3.5 / 2015-05-19
 ==================
