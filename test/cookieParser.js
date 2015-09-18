@@ -15,10 +15,6 @@ describe('cookieParser()', function(){
     assert(typeof cookieParser.JSONCookies, 'function')
   })
 
-  it('should export signedCookie function', function(){
-    assert(typeof cookieParser.signedCookie, 'function')
-  })
-
   it('should export signedCookies function', function(){
     assert(typeof cookieParser.signedCookies, 'function')
   })
@@ -139,6 +135,22 @@ describe('cookieParser.JSONCookie(str)', function () {
 
   it('should return undefined on invalid JSON', function () {
     assert.strictEqual(cookieParser.JSONCookie('j:{foo:"bar"}'), undefined)
+  })
+})
+
+describe('cookieParser.signedCookie(str, secret)', function () {
+  it('should pass through non-signed string', function () {
+    assert.strictEqual(cookieParser.signedCookie('', 'keyboard cat'), '')
+    assert.strictEqual(cookieParser.signedCookie('foo', 'keyboard cat'), 'foo')
+    assert.strictEqual(cookieParser.signedCookie('j:{}', 'keyboard cat'), 'j:{}')
+  })
+
+  it('should return false for tampered signed string', function () {
+    assert.strictEqual(cookieParser.signedCookie('s:foobaz.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE', 'keyboard cat'), false)
+  })
+
+  it('should return unsigned value for signed string', function () {
+    assert.strictEqual(cookieParser.signedCookie('s:foobar.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE', 'keyboard cat'), 'foobar')
   })
 })
 
