@@ -19,7 +19,6 @@
     "supertest": "1.1.0"
   },
   "files": [
-    "lib/",
     "LICENSE",
     "HISTORY.md",
     "index.js"
