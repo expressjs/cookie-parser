@@ -1,10 +1,12 @@
 /*!
  * cookie-parser
+ * Copyright(c) 2014 TJ Holowaychuk
  * MIT Licensed
  */
 
 /**
  * Module dependencies.
+ * @private
  */
 
 var cookie = require('cookie');
@@ -17,7 +19,7 @@ var parse = require('./lib/parse');
  * @param {String} [secret]
  * @param {Object} [options]
  * @return {Function}
- * @api public
+ * @public
  */
 
 exports = module.exports = function cookieParser(secret, options){
@@ -51,6 +53,7 @@ exports = module.exports = function cookieParser(secret, options){
 
 /**
  * Export parsing functions.
+ * @public
  */
 
 exports.JSONCookie = parse.JSONCookie;
