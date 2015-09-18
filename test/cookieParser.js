@@ -52,6 +52,29 @@ describe('cookieParser()', function(){
     })
   })
 
+  describe('when req.cookies exists', function () {
+    it('should do nothing', function (done) {
+      var _parser = cookieParser()
+      var server = http.createServer(function (req, res) {
+        req.cookies = { fizz: 'buzz' }
+        _parser(req, res, function (err) {
+          if (err) {
+            res.statusCode = 500
+            res.end(err.message)
+            return
+          }
+
+          res.end(JSON.stringify(req.cookies))
+        })
+      })
+
+      request(server)
+      .get('/')
+      .set('Cookie', 'foo=bar; bar=baz')
+      .expect(200, '{"fizz":"buzz"}', done)
+    })
+  })
+
   describe('when a secret is given', function(){
     var val = signature.sign('foobarbaz', 'keyboard cat');
     // TODO: "bar" fails...
