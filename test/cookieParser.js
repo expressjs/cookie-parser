@@ -108,6 +108,56 @@ describe('cookieParser()', function(){
     })
   })
 
+  describe('when a secret function is given', function(){
+    var functionServer = createServer(function(req) {
+      return 'Danger Zone!' + req.headers.host;
+    });
+    functionServer.listen();
+    var val = signature.sign('foobarbaz', 'Danger Zone!test.example.com');
+
+    it('should populate req.signedCookies', function(done){
+      request(functionServer)
+          .get('/signed')
+          .set('Cookie', 'foo=s:' + val)
+          .set('Host', 'test.example.com')
+          .expect(200, '{"foo":"foobarbaz"}', done);
+    });
+
+    it('should remove the signed value from req.cookies', function(done){
+      request(functionServer)
+          .get('/')
+          .set('Cookie', 'foo=s:' + val)
+          .set('Host', 'test.example.com')
+          .expect(200, '{}', done);
+    });
+
+    it('should omit invalid signatures', function(done){
+      request(server)
+          .get('/signed')
+          .set('Cookie', 'foo=' + val + '3')
+          .set('Host', 'test.example.com')
+          .expect(200, '{}', function(err){
+            if (err) return done(err);
+            request(server)
+                .get('/')
+                .set('Cookie', 'foo=' + val + '3')
+                .expect(200, '{"foo":"foobarbaz.mmVdlaLQaBJElM9B0MsMt1Ou6FrS9TkL9LcBoF8sJ0M3"}', done);
+          });
+    });
+
+    it('should try multiple secrets', function(done){
+      var multipleSecretsServer = createServer(function(req) {
+        return ['keyboard cat', 'Danger Zone!' + req.headers.host];
+      });
+      multipleSecretsServer.listen();
+      request(multipleSecretsServer)
+          .get('/signed')
+          .set('Cookie', 'foo=s:' + val)
+          .set('Host', 'test.example.com')
+          .expect(200, '{"foo":"foobarbaz"}', done);
+    });
+  });
+
   describe('when multiple secrets are given', function () {
     it('should populate req.signedCookies', function (done) {
       request(createServer(['keyboard cat', 'nyan cat']))
