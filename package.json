@@ -13,7 +13,7 @@
     "middleware"
   ],
   "dependencies": {
-    "cookie": "0.2.2",
+    "cookie": "0.2.3",
     "cookie-signature": "1.0.6"
   },
   "devDependencies": {
