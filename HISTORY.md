@@ -2,6 +2,7 @@ unreleased
 ==========
 
   * deps: cookie@0.2.3
+  * perf: enable strict mode
 
 1.4.0 / 2015-09-18
 ==================
