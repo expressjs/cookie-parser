@@ -62,7 +62,7 @@ var app = express()
 app.use(cookieParser())
 
 app.get('/', function(req, res) {
-  console.log("Cookies: ", req.cookies)
+  console.log('Cookies: ', req.cookies)
 })
 
 app.listen(8080)
