@@ -1,3 +1,11 @@
+unreleased
+==========
+
+  * deps: cookie@0.2.4
+    - perf: enable strict mode
+    - perf: use for loop in parse
+    - perf: use string concatination for serialization
+
 1.4.1 / 2016-01-11
 ==================
 
