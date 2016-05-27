@@ -1,3 +1,9 @@
+unreleased
+==========
+
+  * deps: cookie@0.3.1
+    - perf: use for loop in parse
+
 1.4.2 / 2016-05-20
 ==================
 
