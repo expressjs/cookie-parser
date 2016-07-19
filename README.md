@@ -62,7 +62,10 @@ var app = express()
 app.use(cookieParser())
 
 app.get('/', function(req, res) {
+  // Cookies that has not been signed with a secret
   console.log('Cookies: ', req.cookies)
+  // Cookies that has been signed with res.cookie('key', 'value', { signed: true })
+  console.log('Signed Cookies: ', req.signedCookies)
 })
 
 app.listen(8080)
