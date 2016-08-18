@@ -119,7 +119,7 @@ describe('cookieParser()', function(){
     rotateKey();
     var rotateKeyIntervalId = setInterval(rotateKey, 500);
 
-    var functionServer = createServer(function(req) {
+    var functionServer = createServer(function() {
       return rotatingSecretKey;
     });
     functionServer.listen();
@@ -132,7 +132,6 @@ describe('cookieParser()', function(){
       request(functionServer)
           .get('/signed')
           .set('Cookie', 'foo=s:' + signature.sign('foobarbaz', rotatingSecretKey))
-          .set('Host', 'test.example.com')
           .expect(200, '{"foo":"foobarbaz"}', done);
     });
 
@@ -140,7 +139,6 @@ describe('cookieParser()', function(){
       request(functionServer)
           .get('/')
           .set('Cookie', 'foo=s:' + signature.sign('foobarbaz', rotatingSecretKey))
-          .set('Host', 'test.example.com')
           .expect(200, '{}', done);
     });
 
@@ -149,7 +147,6 @@ describe('cookieParser()', function(){
       request(server)
           .get('/signed')
           .set('Cookie', 'foo=' + signedValue + '3')
-          .set('Host', 'test.example.com')
           .expect(200, '{}', function(err){
             if (err) return done(err);
             request(server)
@@ -160,14 +157,13 @@ describe('cookieParser()', function(){
     });
 
     it('should try multiple secrets', function(done){
-      var multipleSecretsServer = createServer(function(req) {
+      var multipleSecretsServer = createServer(function() {
         return ['keyboard cat', rotatingSecretKey];
       });
       multipleSecretsServer.listen();
       request(multipleSecretsServer)
           .get('/signed')
           .set('Cookie', 'foo=s:' + signature.sign('foobarbaz', rotatingSecretKey))
-          .set('Host', 'test.example.com')
           .expect(200, '{"foo":"foobarbaz"}', done);
     });
   });
