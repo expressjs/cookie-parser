@@ -108,6 +108,66 @@ describe('cookieParser()', function(){
     })
   })
 
+  describe('when a secret function is given', function(){
+    var rotatingSecretKey;
+
+    function rotateKey() {
+      rotatingSecretKey = Math.random() + '';
+    }
+
+    // Initial rotation.
+    rotateKey();
+    var rotateKeyIntervalId = setInterval(rotateKey, 500);
+
+    var functionServer = createServer(function() {
+      return rotatingSecretKey;
+    });
+    functionServer.listen();
+
+    after(function() {
+      clearInterval(rotateKeyIntervalId);
+    });
+
+    it('should populate req.signedCookies', function(done){
+      request(functionServer)
+          .get('/signed')
+          .set('Cookie', 'foo=s:' + signature.sign('foobarbaz', rotatingSecretKey))
+          .expect(200, '{"foo":"foobarbaz"}', done);
+    });
+
+    it('should remove the signed value from req.cookies', function(done){
+      request(functionServer)
+          .get('/')
+          .set('Cookie', 'foo=s:' + signature.sign('foobarbaz', rotatingSecretKey))
+          .expect(200, '{}', done);
+    });
+
+    it('should omit invalid signatures', function(done){
+      var signedValue = signature.sign('foobarbaz', rotatingSecretKey);
+      request(server)
+          .get('/signed')
+          .set('Cookie', 'foo=' + signedValue + '3')
+          .expect(200, '{}', function(err){
+            if (err) return done(err);
+            request(server)
+                .get('/')
+                .set('Cookie', 'foo=' + signedValue + '3')
+                .expect(200, '{"foo":"' + signedValue + '3"}', done);
+          });
+    });
+
+    it('should try multiple secrets', function(done){
+      var multipleSecretsServer = createServer(function() {
+        return ['keyboard cat', rotatingSecretKey];
+      });
+      multipleSecretsServer.listen();
+      request(multipleSecretsServer)
+          .get('/signed')
+          .set('Cookie', 'foo=s:' + signature.sign('foobarbaz', rotatingSecretKey))
+          .expect(200, '{"foo":"foobarbaz"}', done);
+    });
+  });
+
   describe('when multiple secrets are given', function () {
     it('should populate req.signedCookies', function (done) {
       request(createServer(['keyboard cat', 'nyan cat']))

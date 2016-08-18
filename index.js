@@ -44,8 +44,17 @@ function cookieParser(secret, options) {
 
     var cookies = req.headers.cookie;
     var secrets = !secret || Array.isArray(secret)
-      ? (secret || [])
-      : [secret];
+        ? (secret || [])
+        : [secret];
+
+    if (typeof secret === 'function') {
+      var secretValue = secret(req);
+      if (Array.isArray(secretValue)) {
+        secrets = secretValue;
+      } else {
+        secrets = [secretValue];
+      }
+    }
 
     req.secret = secrets[0];
     req.cookies = Object.create(null);

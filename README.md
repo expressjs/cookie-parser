@@ -28,7 +28,7 @@ app.use(cookieParser())
 
 ### cookieParser(secret, options)
 
-- `secret` a string or array used for signing cookies. This is optional and if not specified, will not parse signed cookies. If a string is provided, this is used as the secret. If an array is provided, an attempt will be made to unsign the cookie with each secret in order.
+- `secret` a string, array of strings, or a function used for signing cookies. This is optional and if not specified, will not parse signed cookies. If a string is provided, this is used as the secret. If an array is provided, an attempt will be made to unsign the cookie with each secret in order. If a string is provided, the return value will be used just like providing a string or array of strings.
 - `options` an object that is passed to `cookie.parse` as the second option. See [cookie](https://www.npmjs.org/package/cookie) for more information.
   - `decode` a function to decode the value of the cookie
 
