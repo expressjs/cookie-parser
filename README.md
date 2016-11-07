@@ -19,7 +19,7 @@ $ npm install cookie-parser
 ## API
 
 ```js
-var express      = require('express')
+var express = require('express')
 var cookieParser = require('cookie-parser')
 
 var app = express()
@@ -55,13 +55,13 @@ The `secret` argument can be an array or string. If a string is provided, this i
 ## Example
 
 ```js
-var express      = require('express')
+var express = require('express')
 var cookieParser = require('cookie-parser')
 
 var app = express()
 app.use(cookieParser())
 
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
   // Cookies that have not been signed
   console.log('Cookies: ', req.cookies)
 
