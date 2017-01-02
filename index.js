@@ -91,6 +91,7 @@ function JSONCookie (str) {
   }
 }
 
+
 /**
  * Parse JSON cookies.
  *
