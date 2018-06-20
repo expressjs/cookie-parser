@@ -18,37 +18,37 @@ describe('cookieParser()', function () {
   describe('when no cookies are sent', function () {
     it('should default req.cookies to {}', function (done) {
       request(server)
-      .get('/')
-      .expect(200, '{}', done)
+        .get('/')
+        .expect(200, '{}', done)
     })
 
     it('should default req.signedCookies to {}', function (done) {
       request(server)
-      .get('/signed')
-      .expect(200, '{}', done)
+        .get('/signed')
+        .expect(200, '{}', done)
     })
   })
 
   describe('when cookies are sent', function () {
     it('should populate req.cookies', function (done) {
       request(server)
-      .get('/')
-      .set('Cookie', 'foo=bar; bar=baz')
-      .expect(200, '{"foo":"bar","bar":"baz"}', done)
+        .get('/')
+        .set('Cookie', 'foo=bar; bar=baz')
+        .expect(200, '{"foo":"bar","bar":"baz"}', done)
     })
 
     it('should inflate JSON cookies', function (done) {
       request(server)
-      .get('/')
-      .set('Cookie', 'foo=j:{"foo":"bar"}')
-      .expect(200, '{"foo":{"foo":"bar"}}', done)
+        .get('/')
+        .set('Cookie', 'foo=j:{"foo":"bar"}')
+        .expect(200, '{"foo":{"foo":"bar"}}', done)
     })
 
     it('should not inflate invalid JSON cookies', function (done) {
       request(server)
-      .get('/')
-      .set('Cookie', 'foo=j:{"foo":')
-      .expect(200, '{"foo":"j:{\\"foo\\":"}', done)
+        .get('/')
+        .set('Cookie', 'foo=j:{"foo":')
+        .expect(200, '{"foo":"j:{\\"foo\\":"}', done)
     })
   })
 
@@ -69,9 +69,9 @@ describe('cookieParser()', function () {
       })
 
       request(server)
-      .get('/')
-      .set('Cookie', 'foo=bar; bar=baz')
-      .expect(200, '{"fizz":"buzz"}', done)
+        .get('/')
+        .set('Cookie', 'foo=bar; bar=baz')
+        .expect(200, '{"fizz":"buzz"}', done)
     })
   })
 
@@ -81,39 +81,39 @@ describe('cookieParser()', function () {
 
     it('should populate req.signedCookies', function (done) {
       request(server)
-      .get('/signed')
-      .set('Cookie', 'foo=s:' + val)
-      .expect(200, '{"foo":"foobarbaz"}', done)
+        .get('/signed')
+        .set('Cookie', 'foo=s:' + val)
+        .expect(200, '{"foo":"foobarbaz"}', done)
     })
 
     it('should remove the signed value from req.cookies', function (done) {
       request(server)
-      .get('/')
-      .set('Cookie', 'foo=s:' + val)
-      .expect(200, '{}', done)
+        .get('/')
+        .set('Cookie', 'foo=s:' + val)
+        .expect(200, '{}', done)
     })
 
     it('should omit invalid signatures', function (done) {
       server.listen()
       request(server)
-      .get('/signed')
-      .set('Cookie', 'foo=' + val + '3')
-      .expect(200, '{}', function (err) {
-        if (err) return done(err)
-        request(server)
-        .get('/')
+        .get('/signed')
         .set('Cookie', 'foo=' + val + '3')
-        .expect(200, '{"foo":"foobarbaz.CP7AWaXDfAKIRfH49dQzKJx7sKzzSoPq7/AcBBRVwlI3"}', done)
-      })
+        .expect(200, '{}', function (err) {
+          if (err) return done(err)
+          request(server)
+            .get('/')
+            .set('Cookie', 'foo=' + val + '3')
+            .expect(200, '{"foo":"foobarbaz.CP7AWaXDfAKIRfH49dQzKJx7sKzzSoPq7/AcBBRVwlI3"}', done)
+        })
     })
   })
 
   describe('when multiple secrets are given', function () {
     it('should populate req.signedCookies', function (done) {
       request(createServer(['keyboard cat', 'nyan cat']))
-      .get('/signed')
-      .set('Cookie', 'buzz=s:foobar.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE; fizz=s:foobar.JTCAgiMWsnuZpN3mrYnEUjXlGxmDi4POCBnWbRxse88')
-      .expect(200, '{"buzz":"foobar","fizz":"foobar"}', done)
+        .get('/signed')
+        .set('Cookie', 'buzz=s:foobar.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE; fizz=s:foobar.JTCAgiMWsnuZpN3mrYnEUjXlGxmDi4POCBnWbRxse88')
+        .expect(200, '{"buzz":"foobar","fizz":"foobar"}', done)
     })
   })
 
@@ -125,17 +125,17 @@ describe('cookieParser()', function () {
 
     it('should populate req.cookies', function (done) {
       request(server)
-      .get('/')
-      .set('Cookie', 'foo=bar; bar=baz')
-      .expect(200, '{"foo":"bar","bar":"baz"}', done)
+        .get('/')
+        .set('Cookie', 'foo=bar; bar=baz')
+        .expect(200, '{"foo":"bar","bar":"baz"}', done)
     })
 
     it('should not populate req.signedCookies', function (done) {
       var val = signature.sign('foobarbaz', 'keyboard cat')
       request(server)
-      .get('/signed')
-      .set('Cookie', 'foo=s:' + val)
-      .expect(200, '{}', done)
+        .get('/signed')
+        .set('Cookie', 'foo=s:' + val)
+        .expect(200, '{}', done)
     })
   })
 })
