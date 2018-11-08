@@ -17,6 +17,7 @@
     "cookie-signature": "1.0.6"
   },
   "devDependencies": {
+    "deep-equal": "1.0.1",
     "eslint": "4.19.1",
     "eslint-config-standard": "11.0.0",
     "eslint-plugin-import": "2.14.0",
