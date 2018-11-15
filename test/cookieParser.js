@@ -12,6 +12,10 @@ describe('cookieParser()', function () {
     server = createServer('keyboard cat')
   })
 
+  after(function (done) {
+    server.close(done)
+  })
+
   it('should export JSONCookies function', function () {
     assert(typeof cookieParser.JSONCookies, 'function')
   })
