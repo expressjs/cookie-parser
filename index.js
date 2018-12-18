@@ -37,15 +37,16 @@ module.exports.signedCookies = signedCookies
  */
 
 function cookieParser (secret, options) {
+  var secrets = !secret || Array.isArray(secret)
+    ? (secret || [])
+    : [secret]
+
   return function cookieParser (req, res, next) {
     if (req.cookies) {
       return next()
     }
 
     var cookies = req.headers.cookie
-    var secrets = !secret || Array.isArray(secret)
-      ? (secret || [])
-      : [secret]
 
     req.secret = secrets[0]
     req.cookies = Object.create(null)

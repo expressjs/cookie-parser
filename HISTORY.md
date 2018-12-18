@@ -1,3 +1,8 @@
+unreleased
+==========
+
+  * perf: normalize `secret` argument only once
+
 1.4.3 / 2016-05-26
 ==================
 
