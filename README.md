@@ -33,7 +33,7 @@ app.use(cookieParser())
 
 ### cookieParser.JSONCookie(str)
 
-Parse a cookie value as a JSON cookie. This will return the parsed JSON value if it was a JSON cookie, otherwise it will return the passed value.
+Parse a cookie value as a JSON cookie. This will return the parsed JSON value if it was a JSON cookie, otherwise, it will return the passed value.
 
 ### cookieParser.JSONCookies(cookies)
 
