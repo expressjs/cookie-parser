@@ -272,7 +272,7 @@ describe('cookieParser.signedCookies(obj, secret)', function () {
         fizz: 's:foobar.JTCAgiMWsnuZpN3mrYnEUjXlGxmDi4POCBnWbRxse88'
       }
 
-      deepEqual(cookieParser.signedCookies(obj, [ 'keyboard cat', 'nyan cat' ]), {
+      deepEqual(cookieParser.signedCookies(obj, ['keyboard cat', 'nyan cat']), {
         buzz: 'foobar',
         fizz: 'foobar'
       })
