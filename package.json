@@ -31,7 +31,7 @@
   },
   "files": [
     "LICENSE",
-    "HISTORY.md",
+    "CHANGELOG.md",
     "index.js"
   ],
   "engines": {
