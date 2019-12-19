@@ -40,6 +40,14 @@ function cookieParser (secret, options) {
   var secrets = !secret || Array.isArray(secret)
     ? (secret || [])
     : [secret]
+    
+  if(secret !== undefined){
+    if(secret.constructor.name ==="IncomingMessage"){
+      throw new Error(
+        'It appears you have done something like `app.use(cookieParser)`, but it should be `app.use(cookieParser())`.'
+    );
+    }
+  }
 
   return function cookieParser (req, res, next) {
     if (req.cookies) {
