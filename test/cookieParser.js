@@ -7,28 +7,19 @@ var request = require('supertest')
 var signature = require('cookie-signature')
 
 describe('cookieParser()', function () {
-  var server
-  before(function () {
-    server = createServer('keyboard cat')
-  })
-
-  after(function (done) {
-    server.close(done)
-  })
-
   it('should export JSONCookies function', function () {
     assert(typeof cookieParser.JSONCookies, 'function')
   })
 
   describe('when no cookies are sent', function () {
     it('should default req.cookies to {}', function (done) {
-      request(server)
+      request(createServer('keyboard cat'))
         .get('/')
         .expect(200, '{}', done)
     })
 
     it('should default req.signedCookies to {}', function (done) {
-      request(server)
+      request(createServer('keyboard cat'))
         .get('/signed')
         .expect(200, '{}', done)
     })
@@ -36,21 +27,21 @@ describe('cookieParser()', function () {
 
   describe('when cookies are sent', function () {
     it('should populate req.cookies', function (done) {
-      request(server)
+      request(createServer('keyboard cat'))
         .get('/')
         .set('Cookie', 'foo=bar; bar=baz')
         .expect(200, '{"foo":"bar","bar":"baz"}', done)
     })
 
     it('should inflate JSON cookies', function (done) {
-      request(server)
+      request(createServer('keyboard cat'))
         .get('/')
         .set('Cookie', 'foo=j:{"foo":"bar"}')
         .expect(200, '{"foo":{"foo":"bar"}}', done)
     })
 
     it('should not inflate invalid JSON cookies', function (done) {
-      request(server)
+      request(createServer('keyboard cat'))
         .get('/')
         .set('Cookie', 'foo=j:{"foo":')
         .expect(200, '{"foo":"j:{\\"foo\\":"}', done)
@@ -85,21 +76,22 @@ describe('cookieParser()', function () {
     // TODO: "bar" fails...
 
     it('should populate req.signedCookies', function (done) {
-      request(server)
+      request(createServer('keyboard cat'))
         .get('/signed')
         .set('Cookie', 'foo=s:' + val)
         .expect(200, '{"foo":"foobarbaz"}', done)
     })
 
     it('should remove the signed value from req.cookies', function (done) {
-      request(server)
+      request(createServer('keyboard cat'))
         .get('/')
         .set('Cookie', 'foo=s:' + val)
         .expect(200, '{}', done)
     })
 
     it('should omit invalid signatures', function (done) {
-      server.listen()
+      var server = createServer('keyboard cat')
+
       request(server)
         .get('/signed')
         .set('Cookie', 'foo=' + val + '3')
