@@ -1,7 +1,6 @@
 
 var assert = require('assert')
 var cookieParser = require('..')
-var deepEqual = require('deep-equal')
 var http = require('http')
 var request = require('supertest')
 var signature = require('cookie-signature')
@@ -155,7 +154,7 @@ describe('cookieParser.JSONCookie(str)', function () {
   })
 
   it('should return object for JSON cookie string', function () {
-    deepEqual(cookieParser.JSONCookie('j:{"foo":"bar"}'), { foo: 'bar' })
+    assert.deepEqual(cookieParser.JSONCookie('j:{"foo":"bar"}'), { foo: 'bar' })
   })
 
   it('should return undefined on invalid JSON', function () {
@@ -213,18 +212,18 @@ describe('cookieParser.signedCookie(str, secret)', function () {
 
 describe('cookieParser.signedCookies(obj, secret)', function () {
   it('should ignore non-signed strings', function () {
-    deepEqual(cookieParser.signedCookies({}, 'keyboard cat'), {})
-    deepEqual(cookieParser.signedCookies({ foo: 'bar' }, 'keyboard cat'), {})
+    assert.deepEqual(cookieParser.signedCookies({}, 'keyboard cat'), {})
+    assert.deepEqual(cookieParser.signedCookies({ foo: 'bar' }, 'keyboard cat'), {})
   })
 
   it('should include tampered strings as false', function () {
-    deepEqual(cookieParser.signedCookies({ foo: 's:foobaz.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE' }, 'keyboard cat'), {
+    assert.deepEqual(cookieParser.signedCookies({ foo: 's:foobaz.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE' }, 'keyboard cat'), {
       foo: false
     })
   })
 
   it('should include unsigned strings', function () {
-    deepEqual(cookieParser.signedCookies({ foo: 's:foobar.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE' }, 'keyboard cat'), {
+    assert.deepEqual(cookieParser.signedCookies({ foo: 's:foobar.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE' }, 'keyboard cat'), {
       foo: 'foobar'
     })
   })
@@ -234,8 +233,8 @@ describe('cookieParser.signedCookies(obj, secret)', function () {
       foo: 's:foobar.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE'
     }
 
-    deepEqual(cookieParser.signedCookies(obj, 'keyboard cat'), { foo: 'foobar' })
-    deepEqual(obj, {})
+    assert.deepEqual(cookieParser.signedCookies(obj, 'keyboard cat'), { foo: 'foobar' })
+    assert.deepEqual(obj, {})
   })
 
   it('should remove tampered strings from original object', function () {
@@ -243,8 +242,8 @@ describe('cookieParser.signedCookies(obj, secret)', function () {
       foo: 's:foobaz.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE'
     }
 
-    deepEqual(cookieParser.signedCookies(obj, 'keyboard cat'), { foo: false })
-    deepEqual(obj, {})
+    assert.deepEqual(cookieParser.signedCookies(obj, 'keyboard cat'), { foo: false })
+    assert.deepEqual(obj, {})
   })
 
   it('should leave unsigned string in original object', function () {
@@ -253,8 +252,8 @@ describe('cookieParser.signedCookies(obj, secret)', function () {
       foo: 's:foobar.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE'
     }
 
-    deepEqual(cookieParser.signedCookies(obj, 'keyboard cat'), { foo: 'foobar' })
-    deepEqual(obj, { fizz: 'buzz' })
+    assert.deepEqual(cookieParser.signedCookies(obj, 'keyboard cat'), { foo: 'foobar' })
+    assert.deepEqual(obj, { fizz: 'buzz' })
   })
 
   describe('when secret is an array', function () {
@@ -264,7 +263,7 @@ describe('cookieParser.signedCookies(obj, secret)', function () {
         fizz: 's:foobar.JTCAgiMWsnuZpN3mrYnEUjXlGxmDi4POCBnWbRxse88'
       }
 
-      deepEqual(cookieParser.signedCookies(obj, ['keyboard cat', 'nyan cat']), {
+      assert.deepEqual(cookieParser.signedCookies(obj, ['keyboard cat', 'nyan cat']), {
         buzz: 'foobar',
         fizz: 'foobar'
       })
