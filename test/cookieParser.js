@@ -257,6 +257,18 @@ describe('cookieParser.signedCookies(obj, secret)', function () {
   })
 
   describe('when secret is an array', function () {
+    it('should include unsigned strings for matching secrets', function () {
+      var obj = {
+        buzz: 's:foobar.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE',
+        fizz: 's:foobar.JTCAgiMWsnuZpN3mrYnEUjXlGxmDi4POCBnWbRxse88'
+      }
+
+      assert.deepEqual(cookieParser.signedCookies(obj, ['keyboard cat']), {
+        buzz: 'foobar',
+        fizz: false
+      })
+    })
+
     it('should include unsigned strings for all secrets', function () {
       var obj = {
         buzz: 's:foobar.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE',
