@@ -18,12 +18,10 @@ $ npm install cookie-parser
 
 ## API
 
-```js
-var express = require('express')
-var cookieParser = require('cookie-parser')
+<!-- eslint-disable no-unused-vars -->
 
-var app = express()
-app.use(cookieParser())
+```js
+var cookieParser = require('cookie-parser')
 ```
 
 ### cookieParser(secret, options)
