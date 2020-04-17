@@ -91,7 +91,9 @@ app.listen(8080)
 // curl http://127.0.0.1:8080 --cookie "Cho=Kim;Greet=Hello"
 ```
 
-### [MIT Licensed](LICENSE)
+## License
+
+[MIT](LICENSE)
 
 [coveralls-image]: https://badgen.net/coveralls/c/github/expressjs/cookie-parser/master
 [coveralls-url]: https://coveralls.io/r/expressjs/cookie-parser?branch=master
