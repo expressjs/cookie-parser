@@ -26,6 +26,9 @@ var cookieParser = require('cookie-parser')
 
 ### cookieParser(secret, options)
 
+Create a new cookie parser middleware function using the given `secret` and
+`options`.
+
 - `secret` a string or array used for signing cookies. This is optional and if
   not specified, will not parse signed cookies. If a string is provided, this
   is used as the secret. If an array is provided, an attempt will be made to
@@ -33,6 +36,22 @@ var cookieParser = require('cookie-parser')
 - `options` an object that is passed to `cookie.parse` as the second option. See
   [cookie](https://www.npmjs.org/package/cookie) for more information.
   - `decode` a function to decode the value of the cookie
+
+The middleware will parse the `Cookie` header on the request and expose the
+cookie data as the property `req.cookies` and, if a `secret` was provided, as
+the property `req.signedCookies`. These properties are name value pairs of the
+cookie name to cookie value.
+
+When `secret` is provided, this module will unsign and validate any signed cookie
+values and move those name value pairs from `req.cookies` into `req.signedCookies`.
+A signed cookie is a cookie that has a value prefixed with `s:`. Signed cookies
+that fail signature validation will have the value `false` instead of the tampered
+value.
+
+In addition, this module supports special "JSON cookies". These are cookie where
+the value is prefixed with `j:`. When these values are encountered, the value will
+be exposed as the result of `JSON.parse`. If parsing fails, the original value will
+remain.
 
 ### cookieParser.JSONCookie(str)
 
