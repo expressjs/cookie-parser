@@ -1,11 +1,8 @@
 language: node_js
+arch:
+  - amd64
+  - ppc64le
 node_js:
-  - "0.8"
-  - "0.10"
-  - "0.12"
-  - "1.8"
-  - "2.5"
-  - "3.3"
   - "4.9"
   - "5.12"
   - "6.17"
@@ -63,18 +60,18 @@ before_install:
     fi
   - |
     # Configure istanbul for coverage
-    if node_version_lt '0.10'; then npm_remove_module_re '^istanbul$'
+    if node_version_lt '10'; then npm_remove_module_re '^istanbul$'
     fi
   - |
     # Configure mocha for testing
-    if   node_version_lt '0.10'; then npm_use_module 'mocha' '2.5.3'
+    if   node_version_lt '10'; then npm_use_module 'mocha' '2.5.3'
     elif node_version_lt '4.0' ; then npm_use_module 'mocha' '3.5.3'
     elif node_version_lt '6.0' ; then npm_use_module 'mocha' '5.2.0'
     elif node_version_lt '8.0' ; then npm_use_module 'mocha' '6.2.2'
     fi
   - |
     # Configure supertest for http calls
-    if   node_version_lt '0.10'; then npm_use_module 'supertest' '1.1.0'
+    if   node_version_lt '10'; then npm_use_module 'supertest' '1.1.0'
     elif node_version_lt '4.0' ; then npm_use_module 'supertest' '2.0.0'
     elif node_version_lt '6.0' ; then npm_use_module 'supertest' '3.4.2'
     fi
