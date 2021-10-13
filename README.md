@@ -18,8 +18,6 @@ $ npm install cookie-parser
 
 ## API
 
-<!-- eslint-disable no-unused-vars -->
-
 ```js
 var cookieParser = require('cookie-parser')
 ```
