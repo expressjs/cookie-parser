@@ -1,3 +1,10 @@
+unreleased
+==========
+
+  * deps: cookie@0.4.2
+    - pref: read value only when assigning in parse
+    - pref: remove unnecessary regexp in parse
+
 1.4.6 / 2021-11-16
 ==================
 
