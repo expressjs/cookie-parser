@@ -1,6 +1,10 @@
 unreleased
 ==========
 
+  * deps: cookie@0.5.0
+    - Fix expires option to reject invalid dates
+    - perf: improve default decode speed
+    - perf: remove slow string split in parse
   * deps: cookie@0.4.2
     - pref: read value only when assigning in parse
     - pref: remove unnecessary regexp in parse
