@@ -14,6 +14,7 @@
 
 var cookie = require('cookie')
 var signature = require('cookie-signature')
+var decrypt = require('symmetric-cipher.js').decrypt
 
 /**
  * Module exports.
@@ -51,7 +52,11 @@ function cookieParser (secret, options) {
     req.secret = secrets[0]
     req.cookies = Object.create(null)
     req.signedCookies = Object.create(null)
-
+    var secretEncoding = 'utf8'
+    if (typeof options === 'object' && options.secretEncoding) {
+      secretEncoding = options.secretEncoding
+      req.secretEncoding = secretEncoding
+    }
     // no cookies
     if (!cookies) {
       return next()
@@ -61,7 +66,7 @@ function cookieParser (secret, options) {
 
     // parse signed cookies
     if (secrets.length !== 0) {
-      req.signedCookies = signedCookies(req.cookies, secrets)
+      req.signedCookies = signedCookies(req.cookies, secrets, secretEncoding)
       req.signedCookies = JSONCookies(req.signedCookies)
     }
 
@@ -81,7 +86,7 @@ function cookieParser (secret, options) {
  */
 
 function JSONCookie (str) {
-  if (typeof str !== 'string' || str.substr(0, 2) !== 'j:') {
+  if (typeof str !== 'string' || str.substring(0, 2) !== 'j:') {
     return undefined
   }
 
@@ -118,20 +123,21 @@ function JSONCookies (obj) {
 }
 
 /**
- * Parse a signed cookie string, return the decoded value.
+ * Parse a signed or encrypted cookie string, return the decoded value.
  *
  * @param {String} str signed cookie string
  * @param {string|array} secret
+ * @param {BufferEncoding} secretEncoding the secret(s) encoding scheme
  * @return {String} decoded value
  * @public
  */
 
-function signedCookie (str, secret) {
+function signedCookie (str, secret, secretEncoding = 'utf8') {
   if (typeof str !== 'string') {
     return undefined
   }
 
-  if (str.substr(0, 2) !== 's:') {
+  if (!['s:', 'e:'].includes(str.substring(0, 2))) {
     return str
   }
 
@@ -143,6 +149,14 @@ function signedCookie (str, secret) {
     var val = signature.unsign(str.slice(2), secrets[i])
 
     if (val !== false) {
+      if (str.substring(0, 2) === 'e:') {
+        try {
+          val = decrypt(val, secrets[i], secretEncoding)
+        } catch (err) {
+          // Decryption fails silently
+          return false
+        }
+      }
       return val
     }
   }
@@ -151,16 +165,17 @@ function signedCookie (str, secret) {
 }
 
 /**
- * Parse signed cookies, returning an object containing the decoded key/value
- * pairs, while removing the signed key from obj.
+ * Parse signed and encrypted cookies, returning an object containing the decoded
+ * key/value pairs, while removing the signed key from obj.
  *
  * @param {Object} obj
  * @param {string|array} secret
+ * @param {BufferEncoding} secretEncoding the secret(s) encoding scheme
  * @return {Object}
  * @public
  */
 
-function signedCookies (obj, secret) {
+function signedCookies (obj, secret, secretEncoding = 'utf8') {
   var cookies = Object.keys(obj)
   var dec
   var key
@@ -170,7 +185,7 @@ function signedCookies (obj, secret) {
   for (var i = 0; i < cookies.length; i++) {
     key = cookies[i]
     val = obj[key]
-    dec = signedCookie(val, secret)
+    dec = signedCookie(val, secret, secretEncoding)
 
     if (val !== dec) {
       ret[key] = dec
