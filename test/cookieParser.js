@@ -433,7 +433,7 @@ describe('cookieParser.signedCookies(obj, secret, secretEncoding)', function () 
   })
 })
 
-function createServer (secret, options = {}) {
+function createServer (secret, options) {
   var _parser = cookieParser(secret, options)
   return http.createServer(function (req, res) {
     _parser(req, res, function (err) {
@@ -443,7 +443,7 @@ function createServer (secret, options = {}) {
         return
       }
 
-      var cookies = ['/signed', '/encrypted'].includes(req.url)
+      var cookies = (req.url === '/signed' || req.url === '/encrypted')
         ? req.signedCookies
         : req.cookies
       res.end(JSON.stringify(cookies))

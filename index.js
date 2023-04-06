@@ -132,12 +132,12 @@ function JSONCookies (obj) {
  * @public
  */
 
-function signedCookie (str, secret, secretEncoding = 'utf8') {
+function signedCookie (str, secret, secretEncoding) {
   if (typeof str !== 'string') {
     return undefined
   }
 
-  if (!['s:', 'e:'].includes(str.substring(0, 2))) {
+  if (str.substring(0, 2) !== 's:' && str.substring(0, 2) !== 'e:') {
     return str
   }
 
@@ -175,7 +175,7 @@ function signedCookie (str, secret, secretEncoding = 'utf8') {
  * @public
  */
 
-function signedCookies (obj, secret, secretEncoding = 'utf8') {
+function signedCookies (obj, secret, secretEncoding) {
   var cookies = Object.keys(obj)
   var dec
   var key
