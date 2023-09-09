@@ -42,16 +42,19 @@ function cookieParser (secret, options) {
     : [secret]
 
   return function cookieParser (req, res, next) {
+    console.log(1)
     if (req.cookies) {
       next();
       return;
     }
+    console.log(2)
     
     var cookies = req.headers.cookie
 
     req.secret = secrets[0]
     req.cookies = Object.create(null)
     req.signedCookies = Object.create(null)
+    console.log(3)
 
     // no cookies
     if (!cookies) {
@@ -59,6 +62,7 @@ function cookieParser (secret, options) {
       next();
       return;
     }
+    console.log(4)
 
     req.cookies = cookie.parse(cookies, options)
 
@@ -67,6 +71,7 @@ function cookieParser (secret, options) {
       req.signedCookies = signedCookies(req.cookies, secrets)
       req.signedCookies = JSONCookies(req.signedCookies)
     }
+    console.log(5)
 
     // parse JSON cookies
     req.cookies = JSONCookies(req.cookies)
