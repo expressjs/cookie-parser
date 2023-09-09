@@ -42,7 +42,7 @@ function cookieParser (secret, options) {
     : [secret]
 
   return function cookieParser (req, res, next) {
-    if (req.cookies) {
+    if (!req.cookies) {
       next();
       return;
     }
