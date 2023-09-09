@@ -43,7 +43,8 @@ function cookieParser (secret, options) {
 
   return function cookieParser (req, res, next) {
     if (req.cookies) {
-      return next()
+      next();
+      return;
     }
 
     var cookies = req.headers.cookie
@@ -54,7 +55,8 @@ function cookieParser (secret, options) {
 
     // no cookies
     if (!cookies) {
-      return next()
+      next()
+      return;
     }
 
     req.cookies = cookie.parse(cookies, options)
