@@ -5,26 +5,18 @@
  * MIT Licensed
  */
 
-'use strict'
-
 /**
  * Module dependencies.
  * @private
  */
 
-var cookie = require('cookie')
-var signature = require('cookie-signature')
+const cookie = require('cookie');
+const signature = require('cookie-signature');
 
 /**
  * Module exports.
  * @public
  */
-
-module.exports = cookieParser
-module.exports.JSONCookie = JSONCookie
-module.exports.JSONCookies = JSONCookies
-module.exports.signedCookie = signedCookie
-module.exports.signedCookies = signedCookies
 
 /**
  * Parse Cookie header and populate `req.cookies`
@@ -36,48 +28,48 @@ module.exports.signedCookies = signedCookies
  * @public
  */
 
-function cookieParser (secret, options) {
-  var secrets = !secret || Array.isArray(secret)
+function cookieParser(secret, options) {
+  const secrets = !secret || Array.isArray(secret)
     ? (secret || [])
-    : [secret]
+    : [secret];
 
-  return function cookieParser (req, res, next) {
-    console.log(1)
-    if (req.cookies) {
+  return function cookieParser(req, res, next) {
+    try {
+      if (req.cookies) {
+        next();
+        return;
+      }
+
+      const cookies = req.headers.cookie;
+
+      req.secret = secrets[0];
+      req.cookies = Object.create(null);
+      req.signedCookies = Object.create(null);
+      console.log(3);
+
+      // no cookies
+      if (!cookies) {
+        req.cookies = {};
+        next();
+        return;
+      }
+
+      req.cookies = cookie.parse(cookies, options);
+
+      // parse signed cookies
+      if (secrets.length !== 0) {
+        req.signedCookies = signedCookies(req.cookies, secrets);
+        req.signedCookies = JSONCookies(req.signedCookies);
+      }
+
+      // parse JSON cookies
+      req.cookies = JSONCookies(req.cookies);
+
       next();
-      return;
+    } catch (err) {
+      console.log(err);
     }
-    console.log(2)
-    
-    var cookies = req.headers.cookie
-
-    req.secret = secrets[0]
-    req.cookies = Object.create(null)
-    req.signedCookies = Object.create(null)
-    console.log(3)
-
-    // no cookies
-    if (!cookies) {
-      req.cookies = {}
-      next();
-      return;
-    }
-    console.log(4)
-
-    req.cookies = cookie.parse(cookies, options)
-
-    // parse signed cookies
-    if (secrets.length !== 0) {
-      req.signedCookies = signedCookies(req.cookies, secrets)
-      req.signedCookies = JSONCookies(req.signedCookies)
-    }
-    console.log(5)
-
-    // parse JSON cookies
-    req.cookies = JSONCookies(req.cookies)
-
-    next()
-  }
+  };
 }
 
 /**
@@ -88,15 +80,15 @@ function cookieParser (secret, options) {
  * @public
  */
 
-function JSONCookie (str) {
+function JSONCookie(str) {
   if (typeof str !== 'string' || str.substr(0, 2) !== 'j:') {
-    return undefined
+    return undefined;
   }
 
   try {
-    return JSON.parse(str.slice(2))
+    return JSON.parse(str.slice(2));
   } catch (err) {
-    return undefined
+    return undefined;
   }
 }
 
@@ -108,21 +100,21 @@ function JSONCookie (str) {
  * @public
  */
 
-function JSONCookies (obj) {
-  var cookies = Object.keys(obj)
-  var key
-  var val
+function JSONCookies(obj) {
+  const cookies = Object.keys(obj);
+  let key;
+  let val;
 
-  for (var i = 0; i < cookies.length; i++) {
-    key = cookies[i]
-    val = JSONCookie(obj[key])
+  for (let i = 0; i < cookies.length; i++) {
+    key = cookies[i];
+    val = JSONCookie(obj[key]);
 
     if (val) {
-      obj[key] = val
+      obj[key] = val;
     }
   }
 
-  return obj
+  return obj;
 }
 
 /**
@@ -134,28 +126,28 @@ function JSONCookies (obj) {
  * @public
  */
 
-function signedCookie (str, secret) {
+function signedCookie(str, secret) {
   if (typeof str !== 'string') {
-    return undefined
+    return undefined;
   }
 
   if (str.substr(0, 2) !== 's:') {
-    return str
+    return str;
   }
 
-  var secrets = !secret || Array.isArray(secret)
+  const secrets = !secret || Array.isArray(secret)
     ? (secret || [])
-    : [secret]
+    : [secret];
 
-  for (var i = 0; i < secrets.length; i++) {
-    var val = signature.unsign(str.slice(2), secrets[i])
+  for (let i = 0; i < secrets.length; i++) {
+    const val = signature.unsign(str.slice(2), secrets[i]);
 
     if (val !== false) {
-      return val
+      return val;
     }
   }
 
-  return false
+  return false;
 }
 
 /**
@@ -168,23 +160,29 @@ function signedCookie (str, secret) {
  * @public
  */
 
-function signedCookies (obj, secret) {
-  var cookies = Object.keys(obj)
-  var dec
-  var key
-  var ret = Object.create(null)
-  var val
+function signedCookies(obj, secret) {
+  const cookies = Object.keys(obj);
+  let dec;
+  let key;
+  const ret = Object.create(null);
+  let val;
 
-  for (var i = 0; i < cookies.length; i++) {
-    key = cookies[i]
-    val = obj[key]
-    dec = signedCookie(val, secret)
+  for (let i = 0; i < cookies.length; i++) {
+    key = cookies[i];
+    val = obj[key];
+    dec = signedCookie(val, secret);
 
     if (val !== dec) {
-      ret[key] = dec
-      delete obj[key]
+      ret[key] = dec;
+      delete obj[key];
     }
   }
 
-  return ret
+  return ret;
 }
+
+module.exports = cookieParser;
+module.exports.JSONCookie = JSONCookie;
+module.exports.JSONCookies = JSONCookies;
+module.exports.signedCookie = signedCookie;
+module.exports.signedCookies = signedCookies;
