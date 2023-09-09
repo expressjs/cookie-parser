@@ -42,11 +42,12 @@ function cookieParser (secret, options) {
     : [secret]
 
   return function cookieParser (req, res, next) {
-    if (!req.cookies) {
+    if (req.cookies) {
+      //so i am assuming this is if req.cookies has been set by another middleware
       next();
       return;
     }
-
+    
     var cookies = req.headers.cookie
 
     req.secret = secrets[0]
@@ -55,7 +56,8 @@ function cookieParser (secret, options) {
 
     // no cookies
     if (!cookies) {
-      next()
+      req.cookies = {}
+      next();
       return;
     }
 
