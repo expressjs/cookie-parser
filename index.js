@@ -43,7 +43,6 @@ function cookieParser (secret, options) {
 
   return function cookieParser (req, res, next) {
     if (req.cookies) {
-      //so i am assuming this is if req.cookies has been set by another middleware
       next();
       return;
     }
