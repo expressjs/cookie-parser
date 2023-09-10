@@ -45,7 +45,6 @@ function cookieParser(secret, options) {
       req.secret = secrets[0];
       req.cookies = Object.create(null);
       req.signedCookies = Object.create(null);
-      console.log(3);
 
       // no cookies
       if (!cookies) {
