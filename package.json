@@ -13,8 +13,8 @@
     "middleware"
   ],
   "dependencies": {
-    "cookie": "0.4.2",
-    "cookie-signature": "1.0.6"
+    "cookie": "0.6.0",
+    "cookie-signature": "1.2.1"
   },
   "devDependencies": {
     "eslint": "7.32.0",
