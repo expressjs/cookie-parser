@@ -2,7 +2,7 @@ unreleased
 ==========
 
   * deps: cookie@0.6.0
-	- Add `partitioned` option
+    - Add `partitioned` option
 
   * deps: cookie@0.4.2
     - pref: read value only when assigning in parse
