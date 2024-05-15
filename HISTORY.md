@@ -1,6 +1,9 @@
 unreleased
 ==========
 
+  * deps: cookie@0.6.0
+	- Add `partitioned` option
+
   * deps: cookie@0.4.2
     - pref: read value only when assigning in parse
     - pref: remove unnecessary regexp in parse
