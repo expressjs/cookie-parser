@@ -173,7 +173,9 @@ function signedCookies (obj, secret) {
     dec = signedCookie(val, secret)
 
     if (val !== dec) {
-      ret[key] = dec
+      if (dec) {
+        ret[key] = dec
+      }
       delete obj[key]
     }
   }
