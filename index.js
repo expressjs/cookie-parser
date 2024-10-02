@@ -12,8 +12,8 @@
  * @private
  */
 
-var cookie = require('cookie')
-var signature = require('cookie-signature')
+const cookie = require('cookie')
+const signature = require('cookie-signature')
 
 /**
  * Module exports.
@@ -37,7 +37,7 @@ module.exports.signedCookies = signedCookies
  */
 
 function cookieParser (secret, options) {
-  var secrets = !secret || Array.isArray(secret)
+  const secrets = !secret || Array.isArray(secret)
     ? (secret || [])
     : [secret]
 
@@ -46,7 +46,7 @@ function cookieParser (secret, options) {
       return next()
     }
 
-    var cookies = req.headers.cookie
+    const cookies = req.headers.cookie
 
     req.secret = secrets[0]
     req.cookies = Object.create(null)
@@ -101,11 +101,11 @@ function JSONCookie (str) {
  */
 
 function JSONCookies (obj) {
-  var cookies = Object.keys(obj)
-  var key
-  var val
+  const cookies = Object.keys(obj)
+  let key
+  let val
 
-  for (var i = 0; i < cookies.length; i++) {
+  for (let i = 0; i < cookies.length; i++) {
     key = cookies[i]
     val = JSONCookie(obj[key])
 
@@ -135,12 +135,12 @@ function signedCookie (str, secret) {
     return str
   }
 
-  var secrets = !secret || Array.isArray(secret)
+  const secrets = !secret || Array.isArray(secret)
     ? (secret || [])
     : [secret]
 
-  for (var i = 0; i < secrets.length; i++) {
-    var val = signature.unsign(str.slice(2), secrets[i])
+  for (let i = 0; i < secrets.length; i++) {
+    const val = signature.unsign(str.slice(2), secrets[i])
 
     if (val !== false) {
       return val
@@ -161,13 +161,13 @@ function signedCookie (str, secret) {
  */
 
 function signedCookies (obj, secret) {
-  var cookies = Object.keys(obj)
-  var dec
-  var key
-  var ret = Object.create(null)
-  var val
+  const cookies = Object.keys(obj)
+  let dec
+  let key
+  const ret = Object.create(null)
+  let val
 
-  for (var i = 0; i < cookies.length; i++) {
+  for (let i = 0; i < cookies.length; i++) {
     key = cookies[i]
     val = obj[key]
     dec = signedCookie(val, secret)
