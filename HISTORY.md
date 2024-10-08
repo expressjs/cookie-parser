@@ -1,6 +1,23 @@
 unreleased
 ==========
 
+  * deps: cookie@0.7.2
+    - Fix object assignment of `hasOwnProperty`
+  * deps: cookie@0.7.1
+    - Allow leading dot for domain
+      - Although not permitted in the spec, some users expect this to work and user agents ignore the leading dot according to spec
+    - Add fast path for `serialize` without options, use `obj.hasOwnProperty` when parsing
+  * deps: cookie@0.7.0
+    - perf: parse cookies ~10% faster
+    - fix: narrow the validation of cookies to match RFC6265
+    - fix: add `main` to `package.json` for rspack
+  * deps: cookie@0.6.0
+    - Add `partitioned` option
+  * deps: cookie@0.5.0
+    - Add `priority` option
+    - Fix `expires` option to reject invalid dates
+    - pref: improve default decode speed
+    - pref: remove slow string split in parse
   * deps: cookie@0.4.2
     - pref: read value only when assigning in parse
     - pref: remove unnecessary regexp in parse
