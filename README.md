@@ -19,7 +19,7 @@ $ npm install cookie-parser
 ## API
 
 ```js
-var cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser')
 ```
 
 ### cookieParser(secret, options)
@@ -86,10 +86,10 @@ unsign the cookie with each secret in order.
 ## Example
 
 ```js
-var express = require('express')
-var cookieParser = require('cookie-parser')
+const express = require('express')
+const cookieParser = require('cookie-parser')
 
-var app = express()
+const app = express()
 app.use(cookieParser())
 
 app.get('/', function (req, res) {
