@@ -81,7 +81,7 @@ function cookieParser (secret, options) {
  */
 
 function JSONCookie (str) {
-  if (typeof str !== 'string' || str.substr(0, 2) !== 'j:') {
+  if (typeof str !== 'string' || !str.startsWith('j:')) {
     return undefined
   }
 
@@ -131,7 +131,7 @@ function signedCookie (str, secret) {
     return undefined
   }
 
-  if (str.substr(0, 2) !== 's:') {
+  if (!str.startsWith('s:')) {
     return str
   }
 
