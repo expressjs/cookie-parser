@@ -52,6 +52,22 @@ function cookieParser (secret, options) {
     req.cookies = Object.create(null)
     req.signedCookies = Object.create(null)
 
+    if( cookies && options && options.allowedCookie ){
+      var cookiesList = cookies.split(';');
+      cookies = '';
+      var found = 0;
+      for (var cookieItem of cookiesList) {
+        var cookieParts = cookieItem.trim().split('=');
+        if (options.allowedCookie.includes(cookieParts[0])) {
+          cookies += cookieParts[0] + '=' + cookieParts[1] + ';';
+          found++;
+        }
+        if (found === options.allowedCookie.length) {
+          break;
+        }
+      }
+    }
+
     // no cookies
     if (!cookies) {
       return next()

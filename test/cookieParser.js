@@ -283,8 +283,25 @@ describe('cookieParser.signedCookies(obj, secret)', function () {
   })
 })
 
-function createServer (secret) {
-  var _parser = cookieParser(secret)
+describe('cookieParser with allowedCookie', function () {
+  describe('when no cookies are sent', function () {
+    it('should default req.cookies to {}', function (done) {
+      request(createServer('keyboard cat', { allowedCookie: ['foo'] }))
+        .get('/')
+        .expect(200, '{}', done)
+    })
+
+    it('should req.cookies to allowedCookie', function (done) {
+      request(createServer('keyboard cat', { allowedCookie: ['foo', 'baz'] }))
+        .get('/')
+        .set('Cookie', 'foo=xxx; bar=yyy; baz=zzz;')
+        .expect(200, '{"foo":"xxx","baz":"zzz"}', done)
+    })
+  })
+})
+
+function createServer (secret, options) {
+  var _parser = cookieParser(secret, options)
   return http.createServer(function (req, res) {
     _parser(req, res, function (err) {
       if (err) {
