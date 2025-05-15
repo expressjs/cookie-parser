@@ -101,16 +101,11 @@ function JSONCookie (str) {
  */
 
 function JSONCookies (obj) {
-  var cookies = Object.keys(obj)
-  var key
-  var val
+  for (const [key, value] of Object.entries(obj)) {
+    const decodedValue = JSONCookie(value)
 
-  for (var i = 0; i < cookies.length; i++) {
-    key = cookies[i]
-    val = JSONCookie(obj[key])
-
-    if (val) {
-      obj[key] = val
+    if (decodedValue) {
+      obj[key] = decodedValue
     }
   }
 
