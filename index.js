@@ -76,18 +76,18 @@ function cookieParser (secret, options) {
  * Parse JSON cookie string.
  *
  * @param {String} str
- * @return {Object} Parsed object or undefined if not json cookie
+ * @return {Object|undefined} Parsed object or undefined if not json cookie
  * @public
  */
 
 function JSONCookie (str) {
-  if (typeof str !== 'string' || str.substr(0, 2) !== 'j:') {
+  if (typeof str !== 'string' || !str.startsWith('j:')) {
     return undefined
   }
 
   try {
     return JSON.parse(str.slice(2))
-  } catch (err) {
+  } catch {
     return undefined
   }
 }
