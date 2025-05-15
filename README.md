@@ -34,6 +34,7 @@ Create a new cookie parser middleware function using the given `secret` and
 - `options` an object that is passed to `cookie.parse` as the second option. See
   [cookie](https://www.npmjs.org/package/cookie) for more information.
   - `decode` a function to decode the value of the cookie
+  - `allowedCookie` an array of allowed cookie name to parse
 
 The middleware will parse the `Cookie` header on the request and expose the
 cookie data as the property `req.cookies` and, if a `secret` was provided, as
