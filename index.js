@@ -161,16 +161,10 @@ function signedCookie (str, secret) {
  */
 
 function signedCookies (obj, secret) {
-  var cookies = Object.keys(obj)
-  var dec
-  var key
-  var ret = Object.create(null)
-  var val
+  const ret = Object.create(null)
 
-  for (var i = 0; i < cookies.length; i++) {
-    key = cookies[i]
-    val = obj[key]
-    dec = signedCookie(val, secret)
+  for (const [key, val] of Object.entries(obj)) {
+    const dec = signedCookie(val, secret)
 
     if (val !== dec) {
       ret[key] = dec
