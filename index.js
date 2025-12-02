@@ -49,15 +49,19 @@ function cookieParser (secret, options) {
     var cookies = req.headers.cookie
 
     req.secret = secrets[0]
-    req.cookies = Object.create(null)
-    req.signedCookies = Object.create(null)
+    req.cookies = {}
+    req.signedCookies = {}
 
     // no cookies
-    if (!cookies) {
+    if (!cookies || cookies.trim().length === 0) {
       return next()
     }
 
-    req.cookies = cookie.parse(cookies, options)
+    try {
+      req.cookies = cookie.parse(cookies, options) || {}
+    } catch (err) {
+      req.cookies = {}
+    }
 
     // parse signed cookies
     if (secrets.length !== 0) {
