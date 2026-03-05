@@ -18,7 +18,7 @@
   ],
   "dependencies": {
     "cookie": "0.7.2",
-    "cookie-signature": "1.0.6"
+    "cookie-signature": "1.2.2"
   },
   "devDependencies": {
     "eslint": "7.32.0",
