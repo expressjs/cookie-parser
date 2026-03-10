@@ -172,7 +172,8 @@ function signedCookies (obj, secret) {
     val = obj[key]
     dec = signedCookie(val, secret)
 
-    if (val !== dec) {
+    // only include valid signed cookies (not false/undefined from invalid signature)
+    if (val !== dec && dec !== false && dec !== undefined) {
       ret[key] = dec
       delete obj[key]
     }
