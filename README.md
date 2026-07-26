@@ -38,7 +38,9 @@ Create a new cookie parser middleware function using the given `secret` and
 The middleware will parse the `Cookie` header on the request and expose the
 cookie data as the property `req.cookies` and, if a `secret` was provided, as
 the property `req.signedCookies`. These properties are name value pairs of the
-cookie name to cookie value.
+cookie name to cookie value. When no `Cookie` header is present (or the header
+is empty), both `req.cookies` and `req.signedCookies` are set to empty objects
+(never `undefined` or `false`).
 
 When `secret` is provided, this module will unsign and validate any signed cookie
 values and move those name value pairs from `req.cookies` into `req.signedCookies`.
