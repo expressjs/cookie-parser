@@ -290,7 +290,7 @@ jobs:
           node-version: "21.7"
 
         - name: Node.js 22.x
-          node-version: "22.0"
+          node-version: "22.1"
 
         # Windows on Node.js < 22 is not yet proven for this suite; keep those
         # legs informational until measured, mirroring expressjs/multer#1464.
