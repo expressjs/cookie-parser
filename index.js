@@ -109,7 +109,7 @@ function JSONCookies (obj) {
     key = cookies[i]
     val = JSONCookie(obj[key])
 
-    if (val) {
+    if (val !== undefined) {
       obj[key] = val
     }
   }

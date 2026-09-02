@@ -162,6 +162,21 @@ describe('cookieParser.JSONCookie(str)', function () {
   })
 })
 
+describe('cookieParser.JSONCookies(obj)', function () {
+  it('should parse JSON cookie values, including falsy ones', function () {
+    assert.deepEqual(cookieParser.JSONCookies({
+      f: 'j:false',
+      z: 'j:0',
+      e: 'j:""',
+      n: 'j:null'
+    }), { f: false, z: 0, e: '', n: null })
+  })
+
+  it('should leave non-JSON cookie values untouched', function () {
+    assert.deepEqual(cookieParser.JSONCookies({ a: 'bar', b: 'j:{foo:"bar"}' }), { a: 'bar', b: 'j:{foo:"bar"}' })
+  })
+})
+
 describe('cookieParser.signedCookie(str, secret)', function () {
   it('should return undefined for non-string arguments', function () {
     assert.strictEqual(cookieParser.signedCookie(undefined, 'keyboard cat'), undefined)
