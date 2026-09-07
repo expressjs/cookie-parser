@@ -81,6 +81,23 @@ describe('cookieParser()', function () {
         .expect(200, '{"foo":"foobarbaz"}', done)
     })
 
+    it('should keep an authentic JSON false distinct from a tampered cookie', function (done) {
+      var signed = signature.sign('j:false', 'keyboard cat')
+      request(createServer('keyboard cat'))
+        .get('/signed')
+        .set('Cookie', 'flag=s:' + signed)
+        .expect(200, '{"flag":"j:false"}', done)
+    })
+
+    it('should report a tampered cookie as false', function (done) {
+      var signed = signature.sign('j:false', 'keyboard cat')
+      var tampered = signed.slice(0, -1) + (signed.slice(-1) === 'a' ? 'b' : 'a')
+      request(createServer('keyboard cat'))
+        .get('/signed')
+        .set('Cookie', 'flag=s:' + tampered)
+        .expect(200, '{"flag":false}', done)
+    })
+
     it('should remove the signed value from req.cookies', function (done) {
       request(createServer('keyboard cat'))
         .get('/')
@@ -163,13 +180,16 @@ describe('cookieParser.JSONCookie(str)', function () {
 })
 
 describe('cookieParser.JSONCookies(obj)', function () {
-  it('should parse JSON cookie values, including falsy ones', function () {
+  it('should parse falsy JSON cookie values', function () {
     assert.deepEqual(cookieParser.JSONCookies({
-      f: 'j:false',
       z: 'j:0',
       e: 'j:""',
       n: 'j:null'
-    }), { f: false, z: 0, e: '', n: null })
+    }), { z: 0, e: '', n: null })
+  })
+
+  it('should leave a JSON false as its raw string, so it stays distinct from the signature-failure marker', function () {
+    assert.deepEqual(cookieParser.JSONCookies({ f: 'j:false' }), { f: 'j:false' })
   })
 
   it('should leave non-JSON cookie values untouched', function () {
