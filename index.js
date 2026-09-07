@@ -109,7 +109,11 @@ function JSONCookies (obj) {
     key = cookies[i]
     val = JSONCookie(obj[key])
 
-    if (val) {
+    // Boolean false is reserved: signedCookies() uses it to mark a cookie whose
+    // signature did not verify, so writing a parsed "j:false" here would make an
+    // authentic value indistinguishable from a tampered one (#168). Left as the
+    // raw string until that representation is settled.
+    if (val !== undefined && val !== false) {
       obj[key] = val
     }
   }
